@@ -1,0 +1,183 @@
+﻿<Window x:Class="Wpf5Laba.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Wpf5Laba"
+        mc:Ignorable="d"
+        Loaded="MainWindow_Loaded"
+        Closing = "DataWindowClosing"
+        Title="MainWindow" Height="486.006" Width="954.645">
+    <Window.Resources>
+        <FontFamily  x:Key="SelectedItemFontFamily">Arial</FontFamily>
+        <FontWeight x:Key="SelectedItemFontWeight">Bold</FontWeight>
+        <Style TargetType="{x:Type Control}" x:Key="SelectedItemFontSize">
+            <Setter Property="FontSize" Value="16" />
+        </Style>
+
+        <FontFamily x:Key="CommonItemFontFamily">TimesNewRoman</FontFamily>
+        <FontWeight x:Key="CommonItemFontWeight">Medium</FontWeight>
+        <Style TargetType="{x:Type Control}" x:Key="CommonItemFontSize">
+            <Setter Property="FontSize" Value="12" />
+        </Style>
+    </Window.Resources>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="167*"/>
+            <ColumnDefinition Width="102*"/>
+        </Grid.ColumnDefinitions>
+        <Menu x:Name="MainMenu1" Height="25"
+            VerticalAlignment="Top" Width="auto"
+            VerticalContentAlignment="Center" Grid.ColumnSpan="2" >
+            <MenuItem Header="Actions">
+                <CheckBox x:Name="MenuCheckBox" Content="Checking values" VerticalAlignment="Center" Grid.Row="1" Click="HandleCheck">
+                    <CheckBox.Resources>
+                        <Style TargetType="{x:Type Path}">
+                            <Setter Property="FlowDirection" Value="LeftToRight" />
+                        </Style>
+                    </CheckBox.Resources>
+                </CheckBox>
+                <CheckBox x:Name="MenuCheckBox2" Content="Проверять введённое" Uid ="ChBoxConnect"  VerticalAlignment="Center" Grid.Row="1" Click="HandleCheck">
+                    <CheckBox.Resources>
+                        <Style TargetType="{x:Type Path}">
+                            <Setter Property="FlowDirection" Value="LeftToRight" />
+                        </Style>
+                    </CheckBox.Resources>
+                </CheckBox>
+                <MenuItem Header="Переход на опрос" Click="PollPage">
+                    <MenuItem.Icon>
+                        <Image Source="Images/replace.png"/>
+                    </MenuItem.Icon>
+                </MenuItem>
+                <MenuItem Header="View_Value" Click="ViewValue_Click"/>
+            </MenuItem>
+            <MenuItem Header="File">
+                <MenuItem x:Name="Save" Header="Save Data" Click="SavingData">
+                    <MenuItem.Icon>
+                        <Image Source="Images/save.png"/>
+                    </MenuItem.Icon>
+                </MenuItem>
+                <MenuItem x:Name="Export" Header="Export Data" Click="ExportingData">
+                    <MenuItem.Icon>
+                        <Image Source="Images/export.png"/>
+                    </MenuItem.Icon>
+                </MenuItem>
+                <MenuItem x:Name="Import" Header="Import Data" Click="ImportingData">
+                    <MenuItem.Icon>
+                        <Image Source="Images/import.png"/>
+                    </MenuItem.Icon>
+                </MenuItem>
+                <MenuItem x:Name="Exit" Header="Exit" Click="ExitingProgramm">
+                    <MenuItem.Icon>
+                        <Image Source="Images/exit.png"/>
+                    </MenuItem.Icon>
+                </MenuItem>
+
+            </MenuItem>
+            <MenuItem Header="Service">
+                <MenuItem x:Name="CountOfData" Header="Count Data" Click="CountAllData">
+                    <MenuItem.Icon>
+                        <Image Source="Images/clear.png"/>
+                    </MenuItem.Icon>
+                </MenuItem>
+                <MenuItem x:Name="DeleteData" Header="Delete All Data" Click="DeletingAllData">
+                    <MenuItem.Icon>
+                        <Image Source="Images/deleteAll.jpg"/>
+                    </MenuItem.Icon>
+                </MenuItem>
+                <MenuItem x:Name="LoadLastData" Header="Load Last Data" Click="LoadingLastData" IsEnabled="False">
+                    <MenuItem.Icon>
+                        <Image Source="Images/restore.png"/>
+                    </MenuItem.Icon>
+                </MenuItem>
+                <MenuItem x:Name="ClearData" Header="Clear Data" Click="ClearingData">
+                    <MenuItem.Icon>
+                        <Image Source="Images/clear.png"/>
+                    </MenuItem.Icon>
+                </MenuItem>
+                <MenuItem x:Name="DeleteLastData" Header="Delete last session data" Click="DeletingLastData">
+                    <MenuItem.Icon>
+                        <Image Source="Images/deleteLast.png"/>
+                    </MenuItem.Icon>
+                </MenuItem>
+            </MenuItem>
+            <MenuItem Header="Help">
+                <MenuItem Header="Test input" Click="TestingInput"></MenuItem>
+                <MenuItem Header="Data for resources" Click="DataFromResourses"></MenuItem>
+            </MenuItem>
+            
+        </Menu>
+
+        <TextBox x:Name="InputNewProduct" SpellCheck.IsEnabled="True" Language="ru-ru"
+            Margin="333,210,10,202"/>
+        <Button x:Name="InputToComboBox" Content="Добавить товар в список покупок" FontWeight="Bold" HorizontalAlignment="Center" Margin="333,0,10,102"
+            VerticalAlignment="Bottom" Width="245" RenderTransformOrigin="1.413,0.8" Click="AddAProductToComboBox" Height="62">
+            <Button.Resources>
+                <ImageBrush x:Key="ButtonBrush" TileMode="Tile" ViewportUnits="Absolute" Viewport="30,30,30,30" ImageSource="Images/money.jpg" Opacity="0.4"></ImageBrush>
+            </Button.Resources>
+            <Button.Background>
+                <StaticResource ResourceKey="ButtonBrush"></StaticResource>
+            </Button.Background>
+        </Button>
+        <Button x:Name="InputToListBox" Content="Добавить товар в избранные" FontWeight="Bold"  HorizontalAlignment="Center" Margin="333,0,10,37"
+            VerticalAlignment="Bottom" Width="245" RenderTransformOrigin="1.413,0.8" Click="AddAProductToList" Height="60">
+            <Button.Resources>
+                <ImageBrush x:Key="ButtonBrush" TileMode="Tile" ViewportUnits="Absolute" Viewport="30,30,30,30" ImageSource="Images/money.jpg" Opacity="0.4"></ImageBrush>
+            </Button.Resources>
+            <Button.Background>
+                <StaticResource ResourceKey="ButtonBrush"></StaticResource>
+            </Button.Background>
+        </Button>
+
+        <ComboBox x:Name="ProductList" Height="50" VerticalAlignment="Top" MaxDropDownHeight="240" Margin="0,30,291,0" SelectionChanged="ComboSelectionChaging">
+            <ComboBoxItem IsSelected="True" Selected="SelctedComboBox">
+                My Products
+            </ComboBoxItem>
+            <ComboBoxItem Selected="SelctedComboBox">
+                Cat of my neighbour
+            </ComboBoxItem>
+            <ComboBoxItem Selected="SelctedComboBox">
+                My friends cat
+            </ComboBoxItem>
+        </ComboBox>
+        <ListBox Background="{DynamicResource ListStyle}" x:Name="FavouriteBoard" SelectionMode="Single" Margin="61,25,0,143" Grid.Column="1">
+            <ListBoxItem Background="{DynamicResource ListItemStyle}" Content="Бритва" FontWeight="Bold" FontStretch="ExtraExpanded"/>
+            <ListBoxItem Content="Шоколадное печенье"/>
+            <ListBoxItem Background="{DynamicResource ListItemStyle}" Content="Умная колонка"/>
+            <ListBoxItem Content="Беспроводные наушники"/>
+            <ListBoxItem Background="{DynamicResource ListItemStyle}" Content="Арфа"/>
+            <ListBoxItem Content="Книга по WPF"/>
+
+            <ListBox.Resources>
+                <ImageBrush x:Key="ListStyle" ImageSource="Images/ListBackground.jpg"/>
+                <ImageBrush x:Key="ListItemStyle" ViewportUnits="Absolute" ImageSource="Images/Grase.jpg" TileMode="Tile" Viewport="70,25,73,30" Opacity="0.5"/>
+                <ImageBrush x:Key="ListStyleas" ImageSource="Images/ListBackground.jpg"/>
+            </ListBox.Resources>
+
+        </ListBox>
+
+
+        <Button x:Name="SaveDataButton"  Background="{DynamicResource SaveBrush}" Content="Сохранить данные" FontWeight="Bold" HorizontalAlignment="Center" Margin="333,0,10,375"
+            VerticalAlignment="Bottom" Width="245" RenderTransformOrigin="1.413,0.8" Click="SavingData" Height="29">
+            <Button.Resources>
+                <ImageBrush x:Key="SaveBrush" TileMode="Tile" ViewportUnits="Absolute" Viewport="20,35,30,40" ImageSource="Images/evrey.jpg" Opacity="0.6"></ImageBrush>
+            </Button.Resources>
+
+        </Button>
+
+        <Button x:Name="DoubleBoxItem" Content="Дублировать избранный товар" HorizontalAlignment="Center" Margin="55,0,337,98"
+            VerticalAlignment="Bottom" Width="196" RenderTransformOrigin="1.413,0.8" Click="DoubleItem" Height="26"/>
+        <Button x:Name="DeleteBoxItem" Content="Удалить товар из списка" HorizontalAlignment="Center" Margin="55,0,337,62"
+            VerticalAlignment="Bottom" Width="196" RenderTransformOrigin="1.413,0.8" Click="DeleteItem" Height="26"/>
+        <Button x:Name="DeleteAllBoxItems" Content="Очистить весь список" HorizontalAlignment="Center" Margin="55,0,337,26"
+            VerticalAlignment="Bottom" Width="196" RenderTransformOrigin="1.413,0.8" Click="DeleteAllItems" Height="26"/>
+
+        <Button x:Name="DoubleListItem" Content="Дублировать избранный товар" HorizontalAlignment="Center" Margin="68.414,0,26,96"
+            VerticalAlignment="Bottom" Width="212" RenderTransformOrigin="1.413,0.8" Click="DoubleItem" Height="29" Grid.Column="1"/>
+        <Button x:Name="DeleteListItem" Content="Удалить избранный товар" HorizontalAlignment="Center" Margin="95,0,52,62"
+            VerticalAlignment="Bottom" Width="212" RenderTransformOrigin="1.413,0.8" Click="DeleteItem" Height="29" Grid.Column="1"/>
+        <Button x:Name="DeleteAllFavouriteItems" Content="Очистить список избранных" HorizontalAlignment="Center" Margin="95,0,52,26"
+            VerticalAlignment="Bottom" Width="212" RenderTransformOrigin="1.413,0.8" Click="DeleteAllItems" Height="28" Grid.Column="1"/>
+
+    </Grid>
+</Window>
